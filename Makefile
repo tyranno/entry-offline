@@ -12,18 +12,23 @@ NSIS_BIN = "$(shell cygpath -u "C:\Program Files (x86)\NSIS")"
 all: entryjs entryhw dist setup
 
 dist:
+	@echo "===============$@================"
 	@yarn dist:win
 
 setup:
+	@echo "===============$@================"
 	@cd build && $(NSIS_BIN)/makensis.exe /V3 entryx64.nsi
 	@cd build && $(NSIS_BIN)/makensis.exe /V3 entryx86.nsi
 	
 entryjs:
+	@echo "===============$@================"
 	@cd $(ENTRYJS_HOME) && $(ENTRYJS_HOME)/scripts/build.sh 
 	@cd $(ENTRYJS_HOME) && rsync -aR build $(ENTRYJS_MODULE_HOME)
-	
+
 entryhw:
+	@echo "===============$@================"
 	@cd $(ENTRYHW_HOME) && $(ENTRYHW_HOME)/scripts/build.sh 
 	@cd $(ENTRYHW_HOME) && rsync -aR build-base $(ENTRYHW_MODULE_HOME)
 
+.PHONY: dist setup entryjs entryhw
 
